@@ -19,7 +19,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"gay.sylv.blight.impl.Main"
+			"gay.sylv.blight.impl.BlightMod"
 		]
 	},
 	"mixins": [
