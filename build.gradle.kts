@@ -1,9 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
-import nl.javadude.gradle.plugins.license.License
-
 plugins {
-	id("com.github.hierynomus.license").version("0.16.1")
+	id("dev.yumi.gradle.licenser").version("2.1.+")
 	alias(libs.plugins.fabric.loom)
 	`maven-publish`
 }
@@ -178,17 +176,12 @@ tasks.withType<AbstractArchiveTask> {
 	}
 }
 
-tasks.license.configure {
-	mustRunAfter(tasks.licenseFormat)
-}
-
 tasks.build {
-	dependsOn(tasks.licenseFormat)
-	dependsOn(tasks.license)
+	dependsOn(tasks.applyLicenses)
 }
 
-tasks.withType<License> {
-	header = file("LHEADER")
+license {
+	rule(file("LHEADER"))
 	exclude("**/*.json")
 }
 
