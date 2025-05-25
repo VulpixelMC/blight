@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "${id}",
+	"version": "${version}",
+	"name": "Example Mod",
+	"description": "Here's an example mod! Edit me!",
+	"authors": [
+		"Vulpixel"
+	],
+	"contact": {
+		"homepage": "https://sylv.gay/vulpixel",
+		"sources": "https://github.com/VulpixelMC/fabric-template-mod"
+	},
+	"license": "ARR",
+	"icon": "assets/example_mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"gay.sylv.example_mod.impl.Main"
+		]
+	},
+	"mixins": [
+		"example_mod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"player-roles-api": ">=1.6",
+		"wthit": "~fabric-15.0.1",
+		"modmenu": ">=14.0.0-rc.2"
+	}
+}

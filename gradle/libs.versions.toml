@@ -1,0 +1,44 @@
+[versions]
+# The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
+# https://fabricmc.net/develop/ for fabric
+
+# Base
+minecraft = "1.21.5"
+parchment = "2025.04.19"
+fabric_loader = "0.16.14"
+
+# Libraries
+fabric_api = "0.124.2+1.21.5"
+
+# Mod Integrations
+wthit = "fabric-15.0.1"
+modmenu = "14.0.0-rc.2"
+playerroles = "1.6.14"
+
+# Runtime Mods
+resource_explorer = "dV5Uopqw"
+
+[libraries]
+# Base
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+parchment = { module = "org.parchmentmc.data:parchment-1.21.5", version.ref = "parchment" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+
+# Libraries
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+
+# Mod Integrations
+wthit = { module = "mcp.mobius.waila:wthit", version.ref = "wthit" }
+wthit_api = { module = "mcp.mobius.waila:wthit-api", version.ref = "wthit" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+playerroles = { module = "dev.gegy:player-roles", version.ref = "playerroles" }
+playerroles_api = { module = "dev.gegy:player-roles-api", version.ref = "playerroles" }
+
+# Runtime Mods
+resource_explorer = { module = "maven.modrinth:resource_explorer", version.ref = "resource_explorer" }
+
+# If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
+[bundles]
+
+[plugins]
+fabric_loom = { id = "fabric-loom", version = "1.10-SNAPSHOT" }
