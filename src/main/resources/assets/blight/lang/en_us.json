@@ -1,0 +1,5 @@
+{
+	"blight.vm.error.no_entity": "This Object is not an Entity",
+	"blight.vm.object.number": "Number",
+	"blight.vm.object.entity": "Entity"
+}
