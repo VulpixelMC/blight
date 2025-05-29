@@ -27,7 +27,7 @@ public enum Nature {
 	Reflective('R'),
 	Functional('F'),
 	Grouping('G'),
-	Semantic('Z');
+	Semantic('Z'),;
 
 	private final char symbol;
 

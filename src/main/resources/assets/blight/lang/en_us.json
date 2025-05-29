@@ -1,5 +1,6 @@
 {
 	"blight.vm.error.no_entity": "This Object is not an Entity",
+	"blight.vm.error.no_variable": "Variable %1$s does not exist",
 	"blight.vm.object.number": "Number",
 	"blight.vm.object.entity": "Entity"
 }
