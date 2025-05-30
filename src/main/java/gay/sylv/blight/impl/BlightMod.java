@@ -25,9 +25,13 @@ import org.slf4j.LoggerFactory;
 
 public class BlightMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_NAME);
-	
+
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Blight started");
+	}
+
+	public static Logger createLogger(String... paths) {
+		return LoggerFactory.getLogger(Constants.MOD_NAME + "/" + String.join("/", paths));
 	}
 }
