@@ -16,12 +16,12 @@ public final class BlightResult<T> {
 		this.result = result;
 		this.error = null;
 	}
-	
+
 	private BlightResult(@NotNull BlightError error) {
 		this.result = null;
 		this.error = error;
 	}
-	
+
 	/**
 	 * Create a {@link BlightResult} for a successful result.
 	 * @param result The result.
@@ -31,7 +31,7 @@ public final class BlightResult<T> {
 	public static <T> BlightResult<T> success(@NotNull T result) {
 		return new BlightResult<>(result);
 	}
-	
+
 	/**
 	 * Create a {@link BlightResult} for an error.
 	 * @param error The error that occurred.
@@ -41,7 +41,7 @@ public final class BlightResult<T> {
 	public static <T> BlightResult<T> error(@NotNull BlightError error) {
 		return new BlightResult<>(error);
 	}
-	
+
 	/**
 	 * Creates a {@link BlightResult} from a nullable result where {@code null} indicates failure.
 	 * @param result The result or {@code null} if failed.
@@ -56,6 +56,7 @@ public final class BlightResult<T> {
 	/**
 	 * Asserts that the result exists.
 	 * @return The result.
+	 * @throws AssertionError If the result does not exist.
 	 */
 	public @NotNull T assertResult() {
 		if (result == null) {
@@ -68,6 +69,7 @@ public final class BlightResult<T> {
 	/**
 	 * Asserts that an error occurred.
 	 * @return The error.
+	 * @throws AssertionError If the error does not exist.
 	 */
 	public @NotNull BlightError assertError() {
 		if (error == null) {
