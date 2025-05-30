@@ -4,6 +4,8 @@ import gay.sylv.blight.api.vm.BlightVM;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Predicate;
+
 /**
  * The result of an operation in a {@link BlightVM}.
  * @param <T> The result's type.
@@ -51,6 +53,21 @@ public final class BlightResult<T> {
 	 */
 	public static <T> BlightResult<T> fromNullable(@Nullable T result, BlightError error) {
 		return result == null ? error(error) : success(result);
+	}
+
+	/**
+	 * Creates a {@link BlightResult} from a nullable result where {@code null} or the predicate returning {@code false} indicates failure.
+	 * @param result The result or {@code null} if failed.
+	 * @param error The error if the result is {@code null} or if the predicate is {@code false}.
+	 * @return The error or result wrapped in a {@link BlightResult}.
+	 * @param <T> The normal result's type.
+	 */
+	public static <T> BlightResult<T> fromPredicate(@Nullable T result, BlightError error,  Predicate<T> predicate) {
+		if (result != null) {
+			return predicate.test(result) ? error(error) : success(result);
+		} else {
+			return error(error);
+		}
 	}
 
 	/**
