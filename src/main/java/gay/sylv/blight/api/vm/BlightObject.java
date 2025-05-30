@@ -10,8 +10,16 @@ import net.minecraft.world.entity.LivingEntity;
  * An <b>Object</b> in the {@link BlightVM} is a decimal or integer number, or a {@link LivingEntity}.
  */
 public class BlightObject {
+	private Type type;
 	private float number;
 	private LivingEntity entity;
+
+	/**
+	 * @return This Object's {@link Type}.
+	 */
+	public Type getType() {
+		return type;
+	}
 
 	/**
 	 * Set this Object as a number.
@@ -19,13 +27,14 @@ public class BlightObject {
 	 */
 	public void setNumber(float number) {
 		this.number = number;
+		this.type = Type.NUMBER;
 	}
 
 	/**
 	 * @return This Object as a number or {@code -1} if this is an Entity.
 	 */
 	public float getNumber() {
-		return entity != null ? -1 : number;
+		return type == Type.ENTITY ? -1 : number;
 	}
 
 	/**
@@ -34,6 +43,7 @@ public class BlightObject {
 	 */
 	public void setEntity(LivingEntity entity) {
 		this.entity = entity;
+		this.type = Type.ENTITY;
 	}
 
 	/**
@@ -41,7 +51,11 @@ public class BlightObject {
 	 * @return The Entity wrapped in a {@link BlightResult}.
 	 */
 	public BlightResult<LivingEntity> getEntity() {
-		return BlightResult.fromNullable(entity, BlightError.NO_ENTITY);
+		return BlightResult.fromPredicate(
+				entity,
+				BlightError.NO_ENTITY,
+				entity -> this.type == Type.ENTITY
+		);
 	}
 
 	/**
