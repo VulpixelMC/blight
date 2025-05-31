@@ -1,7 +1,6 @@
 package gay.sylv.blight.client.api.render;
 
 import gay.sylv.blight.client.impl.render.Rendering;
-import gay.sylv.blight.impl.BlightMod;
 import org.lwjgl.opengl.GLCapabilities;
 import org.slf4j.event.Level;
 import org.slf4j.spi.LoggingEventBuilder;
