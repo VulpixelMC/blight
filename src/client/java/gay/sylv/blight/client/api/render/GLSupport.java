@@ -18,13 +18,12 @@ public final class GLSupport {
 
 	/**
 	 * Send a message to the log if the capability is unsupported.
-	 * @param capability The capability.
+	 * @param capability The capabilities.
 	 * @param logLevel The log level.
 	 * @param message The message to be logged.
-	 * @param capabilityArgs The arguments querying capability support.
 	 */
-	public static void logIfUnsupported(Capability capability, Level logLevel, String message, Object... capabilityArgs) {
-		if (!capability.isSupported(capabilityArgs)) {
+	public static void logIfUnsupported(Capability capability, Level logLevel, String message) {
+		if (!capability.isSupported()) {
 			LoggingEventBuilder logger = Rendering.LOGGER.atLevel(logLevel);
 			logSeparator(logger);
 			logger.log(message);
@@ -33,13 +32,26 @@ public final class GLSupport {
 	}
 
 	/**
-	 * Send a message to the log if the capability is unsupported.
-	 * @param capability The capability.
+	 * Send a message to the log if any of the capabilities are unsupported.
 	 * @param logLevel The log level.
 	 * @param message The message to be logged.
+	 * @param capabilities The capabilities.
 	 */
-	public static void logIfUnsupported(Capability capability, Level logLevel, String message) {
-		logIfUnsupported(capability, logLevel, message, new Object[0]);
+	public static void logIfAnyUnsupported(Level logLevel, String message, Capability... capabilities) {
+		boolean supported = true;
+		for (Capability capability : capabilities) {
+			if (!capability.isSupported()) {
+				supported = false;
+				break;
+			}
+		}
+
+		if (!supported) {
+			LoggingEventBuilder logger = Rendering.LOGGER.atLevel(logLevel);
+			logSeparator(logger);
+			logger.log(message);
+			logSeparator(logger);
+		}
 	}
 
 	/**
@@ -48,17 +60,15 @@ public final class GLSupport {
 	public interface Capability {
 		/**
 		 * This capability's raw {@link VarHandle} referencing a field in the defining class for this type of
-		 * capability (e.g. {@link GLCapabilities}).
+		 * capabilities (e.g. {@link GLCapabilities}).
 		 * @return This capability's raw {@link VarHandle}.
 		 */
 		VarHandle getHandle();
 
 		/**
-		 * @param args Any arguments as needed by this capability. This is intended for capabilities that are not
-		 * booleans.
 		 * @return Whether this capability is supported.
 		 */
-		default boolean isSupported(@SuppressWarnings("unused") Object... args) {
+		default boolean isSupported() {
 			return (boolean) getHandle().get();
 		}
 	}
