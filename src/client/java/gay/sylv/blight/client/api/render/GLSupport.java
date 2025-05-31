@@ -1,9 +1,15 @@
 package gay.sylv.blight.client.api.render;
 
+import gay.sylv.blight.client.impl.render.Rendering;
+import gay.sylv.blight.impl.BlightMod;
 import org.lwjgl.opengl.GLCapabilities;
+import org.slf4j.event.Level;
+import org.slf4j.spi.LoggingEventBuilder;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+
+import static gay.sylv.blight.impl.BlightMod.logSeparator;
 
 /**
  * A utility class for querying OpenGL support.
@@ -12,9 +18,56 @@ public final class GLSupport {
 	private GLSupport() {}
 
 	/**
+	 * Send a message to the log if the capability is unsupported.
+	 * @param capability The capability.
+	 * @param logLevel The log level.
+	 * @param message The message to be logged.
+	 * @param capabilityArgs The arguments querying capability support.
+	 */
+	public static void logIfUnsupported(Capability capability, Level logLevel, String message, Object... capabilityArgs) {
+		if (!capability.isSupported(capabilityArgs)) {
+			LoggingEventBuilder logger = Rendering.LOGGER.atLevel(logLevel);
+			logSeparator(logger);
+			logger.log(message);
+			logSeparator(logger);
+		}
+	}
+
+	/**
+	 * Send a message to the log if the capability is unsupported.
+	 * @param capability The capability.
+	 * @param logLevel The log level.
+	 * @param message The message to be logged.
+	 */
+	public static void logIfUnsupported(Capability capability, Level logLevel, String message) {
+		logIfUnsupported(capability, logLevel, message, new Object[0]);
+	}
+
+	/**
+	 * A base interface enabling the query of capability support.
+	 */
+	public interface Capability {
+		/**
+		 * This capability's raw {@link VarHandle} referencing a field in the defining class for this type of
+		 * capability (e.g. {@link GLCapabilities}).
+		 * @return This capability's raw {@link VarHandle}.
+		 */
+		VarHandle getHandle();
+
+		/**
+		 * @param args Any arguments as needed by this capability. This is intended for capabilities that are not
+		 * booleans.
+		 * @return Whether this capability is supported.
+		 */
+		default boolean isSupported(@SuppressWarnings("unused") Object... args) {
+			return (boolean) getHandle().get();
+		}
+	}
+
+	/**
 	 * An enum of relevant OpenGL extensions. Note that only extensions used by Blight will be available.
 	 */
-	public enum Extension {
+	public enum Extension implements Capability {
 		GL_ARB_texture_swizzle,
 		GL_ARB_draw_indirect,
 		GL_ARB_shader_storage_buffer_object,
@@ -23,21 +76,12 @@ public final class GLSupport {
 		private final VarHandle handle;
 
 		Extension() {
-			handle = GLSupport.createVarHandle(this.name(), this.getClass());
+			handle = GLSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
 		}
 
-		/**
-		 * @return This extension's raw {@link VarHandle} defined in {@link GLCapabilities} as a {@link Boolean}.
-		 */
+		@Override
 		public VarHandle getHandle() {
 			return handle;
-		}
-
-		/**
-		 * @return Whether this extension is supported.
-		 */
-		public boolean isSupported() {
-			return (boolean) getHandle().get();
 		}
 	}
 
@@ -45,7 +89,7 @@ public final class GLSupport {
 	 * An enum of minimum supported OpenGL versions. Note that this does not indicate hardware support, only software
 	 * usage (i.e., the GLFW hint).
 	 */
-	public enum Version {
+	public enum Version implements Capability {
 		OpenGL11,
 		OpenGL12,
 		OpenGL13,
@@ -68,30 +112,26 @@ public final class GLSupport {
 		private final VarHandle handle;
 
 		Version() {
-			handle = GLSupport.createVarHandle(this.name(), this.getClass());
+			handle = GLSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
 		}
 
-		/**
-		 * @return This extension's raw {@link VarHandle} defined in {@link GLCapabilities} as a {@link Boolean}.
-		 */
+		@Override
 		public VarHandle getHandle() {
 			return handle;
 		}
-
-		/**
-		 * @return Whether this extension is supported.
-		 */
-		public boolean isSupported() {
-			return (boolean) getHandle().get();
-		}
 	}
 
-	private static VarHandle createVarHandle(String varName, Class<?> clazz) {
+	private static VarHandle createVarHandle(
+			Class<?> definingClazz,
+			String fieldName,
+			Class<?> fieldType,
+			Class<?> callerClazz
+	) {
 		final VarHandle handle;
 		try {
-			handle = MethodHandles.lookup().findVarHandle(GLCapabilities.class, varName, boolean.class);
+			handle = MethodHandles.lookup().findVarHandle(definingClazz, fieldName, fieldType);
 		} catch (NoSuchFieldException | IllegalAccessException e) {
-			throw new RuntimeException("Invalid OpenGL extension attempted registry in " + clazz.getName(), e);
+			throw new RuntimeException("Invalid OpenGL extension attempted registry in " + callerClazz.getName(), e);
 		}
 		return handle;
 	}

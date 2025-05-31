@@ -22,6 +22,7 @@ import gay.sylv.blight.impl.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LoggingEventBuilder;
 
 public final class BlightMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_NAME);
@@ -33,5 +34,9 @@ public final class BlightMod implements ModInitializer {
 
 	public static Logger createLogger(String... paths) {
 		return LoggerFactory.getLogger(Constants.MOD_NAME + "/" + String.join("/", paths));
+	}
+
+	public static void logSeparator(LoggingEventBuilder logger) {
+		logger.log("=================================================================================");
 	}
 }
