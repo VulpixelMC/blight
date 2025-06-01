@@ -31,6 +31,21 @@ public class ShaderProgram {
 		this.shaderTypes = shaderTypes;
 	}
 
+	/**
+	 * Compile the shader program or throw if failed.
+	 * @param resourceProvider The game's {@link ResourceProvider}.
+	 * @throws IOException If an error during shader compilation occurred.
+	 */
+	public void compileOrThrow(ResourceProvider resourceProvider) throws IOException {
+		if (!compile(resourceProvider)) {
+			throw new IOException("Failed to compile shader program: " + name);
+		}
+	}
+
+	/**
+	 * Compile the shader program or return {@code false} if failed.
+	 * @param resourceProvider The game's {@link ResourceProvider}.
+	 */
 	public boolean compile(ResourceProvider resourceProvider) {
 		this.program = GL32C.glCreateProgram();
 
