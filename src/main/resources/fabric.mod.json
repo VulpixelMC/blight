@@ -21,6 +21,9 @@
 	"entrypoints": {
 		"main": [
 			"gay.sylv.blight.impl.BlightMod"
+		],
+		"client": [
+			"gay.sylv.blight.client.impl.BlightClientMod"
 		]
 	},
 	"mixins": [

@@ -1,7 +1,8 @@
 package gay.sylv.blight.client.api.render;
 
 import gay.sylv.blight.client.impl.render.Rendering;
-import gay.sylv.blight.impl.util.Constants;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -21,29 +22,37 @@ import java.nio.charset.StandardCharsets;
  * This represents an OpenGL <a href="https://www.khronos.org/opengl/wiki/Shader">Shader</a> <a href="https://www.khronos.org/opengl/wiki/GLSL_Object">Program Object</a>.
  */
 public class ShaderProgram {
-	private final String name;
+	private final ResourceLocation id;
+	private final String shaderNamespace;
 	private final ShaderType[] shaderTypes;
 	private int program = -1;
 	private boolean compiled = false;
+	private final Int2ObjectMap<String> vertexAttributeLocations = new Int2ObjectArrayMap<>();
 
-	public ShaderProgram(String name, ShaderType... shaderTypes) {
-		this.name = name;
+	/**
+	 * Create a new shader program object.
+	 * @param id The shader program's {@link ResourceLocation}.
+	 * @param shaderNamespace The subfolder in {@code assets/<namespace>/shaders}.
+	 * @param shaderTypes The shader program's stages.
+	 */
+	public ShaderProgram(ResourceLocation id, String shaderNamespace, ShaderType... shaderTypes) {
+		this.id = id;
+		this.shaderNamespace = shaderNamespace;
 		this.shaderTypes = shaderTypes;
 	}
 
 	/**
-	 * Compile the shader program or throw if failed.
+	 * Compile the shader program or print an error if failed.
 	 * @param resourceProvider The game's {@link ResourceProvider}.
-	 * @throws IOException If an error during shader compilation occurred.
 	 */
-	public void compileOrThrow(ResourceProvider resourceProvider) throws IOException {
+	public void compileOrThrow(ResourceProvider resourceProvider) {
 		if (!compile(resourceProvider)) {
-			throw new IOException("Failed to compile shader program: " + name);
+			Rendering.LOGGER.error("Failed to compile shader program: {}", this.id);
 		}
 	}
 
 	/**
-	 * Compile the shader program or return {@code false} if failed.
+	 * Compile and link the shader program or return {@code false} if failed.
 	 * @param resourceProvider The game's {@link ResourceProvider}.
 	 */
 	public boolean compile(ResourceProvider resourceProvider) {
@@ -51,7 +60,8 @@ public class ShaderProgram {
 
 		for (ShaderType shaderType : shaderTypes) {
 			try {
-				String shaderSource = openShader(resourceProvider, Constants.modId(name), shaderType);
+				String shaderSource = openShader(resourceProvider, id, shaderType, shaderNamespace);
+//				shaderSource = shaderSource.replace("#version 150 core", "#version 150 core\n#extension ARB_separate_shader_objects : enable");
 				int shader = GL32C.glCreateShader(shaderType.getGlType());
 				GL32C.glShaderSource(shader, shaderSource);
 				GL32C.glCompileShader(shader);
@@ -60,17 +70,21 @@ public class ShaderProgram {
 				GL32C.glGetShaderiv(shader, GL32C.GL_COMPILE_STATUS, success);
 				if (success[0] == 0) {
 					String infoLog = GL32C.glGetShaderInfoLog(shader);
-					Rendering.LOGGER.error("Failed to compile shader {} for program {}", shaderType, name);
+					Rendering.LOGGER.error("Failed to compile shader {} for program {}", shaderType, id);
 					Rendering.LOGGER.error(infoLog);
 					GL32C.glDeleteShader(shader);
 					GL32C.glDeleteProgram(program);
 					return false;
 				}
 
+				vertexAttributeLocations.forEach((index, name) -> {
+					GL32C.glBindAttribLocation(program, index, name);
+				});
+
 				GL32C.glAttachShader(program, shader);
 				GL32C.glDeleteShader(shader);
 			} catch (IOException e) {
-				Rendering.LOGGER.error("Failed to open shader {} for program {}", shaderType, name, e);
+				Rendering.LOGGER.error("Failed to open shader {} for program {}", shaderType, id, e);
 			}
 		}
 
@@ -80,7 +94,7 @@ public class ShaderProgram {
 		GL32C.glGetProgramiv(program, GL32C.GL_LINK_STATUS, success);
 		if (success[0] == 0) {
 			String infoLog = GL32C.glGetProgramInfoLog(program);
-			Rendering.LOGGER.error("Failed to link shaders for program {}", name);
+			Rendering.LOGGER.error("Failed to link shaders for program {}", id);
 			Rendering.LOGGER.error(infoLog);
 			return false;
 		}
@@ -110,6 +124,15 @@ public class ShaderProgram {
 		GL32C.glUniform1f(GL32C.glGetUniformLocation(program, name), value);
 	}
 
+	/**
+	 * Set up a Vertex Attribute's location for shader linkage.
+	 * @param index The vertex attribute index.
+	 * @param name The string name in the shader.
+	 */
+	public void setVertex(int index, String name) {
+		vertexAttributeLocations.put(index, name);
+	}
+
 	public void use() {
 		GL32C.glUseProgram(program);
 	}
@@ -122,10 +145,10 @@ public class ShaderProgram {
 		return compiled;
 	}
 
-	private static String openShader(ResourceProvider resourceProvider, ResourceLocation loc, ShaderType shaderType) throws IOException {
+	private static String openShader(ResourceProvider resourceProvider, ResourceLocation loc, ShaderType shaderType, String shaderNamespace) throws IOException {
 		Resource resource = resourceProvider.getResourceOrThrow(
 				loc
-						.withPrefix("shaders/")
+						.withPrefix("shaders/" + shaderNamespace + "/")
 						.withSuffix(shaderType.getExtension())
 		);
 		try (InputStream inputStream = resource.open()) {

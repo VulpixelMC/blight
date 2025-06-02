@@ -20,16 +20,16 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-	
+
 	mavenCentral()
-	
+
 	maven {
 		name = "ParchmentMC"
 		url = uri("https://maven.parchmentmc.org")
 	}
-	
+
 	// Mod Artifacts
-	
+
 	maven {
 		name = "WTHIT Maven"
 		url = uri("https://maven2.bai.lol")
@@ -38,12 +38,12 @@ repositories {
 			includeGroup("mcp.mobius.waila")
 		}
 	}
-	
+
 	maven {
 		name = "TerraformersMC"
 		url = uri("https://maven.terraformersmc.com/")
 	}
-	
+
 	maven {
 		name = "Modrinth"
 		url = uri("https://api.modrinth.com/maven")
@@ -51,7 +51,7 @@ repositories {
 			includeGroup("maven.modrinth")
 		}
 	}
-	
+
 	maven {
 		name = "Gegy Maven"
 		url = uri("https://maven.gegy.dev/releases")
@@ -59,7 +59,7 @@ repositories {
 			includeGroup("dev.gegy")
 		}
 	}
-	
+
 	maven {
 		name = "Nucleoid Maven"
 		url = uri("https://maven.nucleoid.xyz/")
@@ -79,18 +79,18 @@ dependencies {
 		officialMojangMappings()
 		parchment(libs.parchment)
 	})
-	
+
 	// Loader
 	modImplementation(libs.fabric.loader)
-	
+
 	// Libraries
 	modImplementation(libs.fabric.api)
-	
+
 	// Mod Integrations
 	modCompileOnly(libs.wthit)
 	modCompileOnly(libs.wthit.api)
 	modCompileOnly(libs.playerroles.api)
-	
+
 	modRuntimeOnly(libs.wthit)
 	modRuntimeOnly(libs.modmenu) {
 		exclude(group = "net.fabricmc.fabric-api")
@@ -102,13 +102,9 @@ dependencies {
 
 tasks.processResources {
 	inputs.property("version", version)
-	
+
 	filesMatching("fabric.mod.json") {
 		expand("group" to mavenGroup, "id" to modId, "version" to version)
-	}
-	
-	filesMatching("**/lang/*.json") {
-		expand("id" to modId)
 	}
 }
 
@@ -120,9 +116,9 @@ tasks.withType<JavaCompile> {
 
 loom {
 	accessWidenerPath.set(file("src/main/resources/$modId.accesswidener"))
-	
+
 	splitEnvironmentSourceSets()
-	
+
 	mods {
 		register(modId) {
 			sourceSet(sourceSets["main"])
@@ -151,11 +147,11 @@ java {
 	// Still required by IDEs such as Eclipse and Visual Studio Code
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
-	
+
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task if it is present.
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
-	
+
 	// If this mod is going to be a library, then it should also generate Javadocs in order to aid with development.
 	// Uncomment this line to generate them.
 	// withJavadocJar()
@@ -166,11 +162,11 @@ tasks.withType<AbstractArchiveTask> {
 	from("LICENSE") {
 		rename { "${it}_${modId}" }
 	}
-	
+
 	from("COPYING") {
 		rename { "${it}_${modId}" }
 	}
-	
+
 	from("COPYING.LESSER") {
 		rename { "${it}_${modId}" }
 	}
@@ -188,7 +184,7 @@ license {
 // Configure the maven publication
 publishing {
 	publications { }
-	
+
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
 		// Add repositories to publish to here.

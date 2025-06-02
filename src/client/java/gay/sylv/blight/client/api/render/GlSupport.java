@@ -1,6 +1,7 @@
 package gay.sylv.blight.client.api.render;
 
 import gay.sylv.blight.client.impl.render.Rendering;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.slf4j.event.Level;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -13,8 +14,8 @@ import static gay.sylv.blight.impl.BlightMod.logSeparator;
 /**
  * A utility class for querying OpenGL support.
  */
-public final class GLSupport {
-	private GLSupport() {}
+public final class GlSupport {
+	private GlSupport() {}
 
 	/**
 	 * Send a message to the log if the capability is unsupported.
@@ -69,7 +70,17 @@ public final class GLSupport {
 		 * @return Whether this capability is supported.
 		 */
 		default boolean isSupported() {
-			return (boolean) getHandle().get();
+			return (boolean) getHandle().get(GL.getCapabilities());
+		}
+
+		static boolean allSupported(Capability... capabilities) {
+			for (Capability capability : capabilities) {
+				if (!capability.isSupported()) {
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 
@@ -80,12 +91,13 @@ public final class GLSupport {
 		GL_ARB_texture_swizzle,
 		GL_ARB_draw_indirect,
 		GL_ARB_shader_storage_buffer_object,
-		GL_ARB_base_instance,;
+		GL_ARB_base_instance,
+		GL_ARB_separate_shader_objects,;
 
 		private final VarHandle handle;
 
 		Extension() {
-			handle = GLSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
+			handle = GlSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
 		}
 
 		@Override
@@ -121,7 +133,7 @@ public final class GLSupport {
 		private final VarHandle handle;
 
 		Version() {
-			handle = GLSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
+			handle = GlSupport.createVarHandle(GLCapabilities.class, this.name(), boolean.class, this.getClass());
 		}
 
 		@Override
