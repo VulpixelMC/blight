@@ -3,12 +3,13 @@
 in vec3 position;
 //in vec3 normal;
 
+uniform mat4 frustum_matrix;
 uniform mat4 model_view_matrix;
 uniform mat4 projection_matrix;
 
 out vec4 color;
 
 void main() {
-	gl_Position = projection_matrix * model_view_matrix * vec4(position, 1.0);
+	gl_Position = projection_matrix * model_view_matrix * frustum_matrix * vec4(position, 1.0);
 	color = vec4(1.0, 0.5, 0.5, 1.0);
 }

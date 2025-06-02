@@ -42,18 +42,11 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 
 		GL32C.glBindFramebuffer(GL32C.GL_DRAW_FRAMEBUFFER, mainFbo);
 
-		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-		Vec3 cameraPos = camera.getPosition();
-
-//		poseStack.pushPose();
-//		poseStack.scale(0.25f, 0.25f, 0.25f);
-//		poseStack.translate(cameraPos.subtract(renderState.position));
+		poseStack.pushPose();
+		poseStack.scale(0.25f, 0.25f, 0.25f);
 
 		Matrix4f frustumMatrix = poseStack.last().pose();
-		Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
-		modelViewStack.pushMatrix();
-		modelViewStack.mul(frustumMatrix);
-		Matrix4f modelViewMatrix = new Matrix4f(modelViewStack);
+		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
 
 		GL32C.glEnable(GL32C.GL_DEPTH_TEST);
 		GL32C.glDepthMask(true);
@@ -63,6 +56,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 
 		GL32C.glBindVertexArray(vao);
 		Shaders.ECHO.use();
+		Shaders.ECHO.setMat4("frustum_matrix", frustumMatrix);
 		Shaders.ECHO.setMat4("model_view_matrix", modelViewMatrix);
 		Shaders.ECHO.setMat4("projection_matrix", RenderSystem.getProjectionMatrix());
 		GL32C.glDrawElements(GL32C.GL_TRIANGLES, ICOSPHERE.getIndices().length, GL32C.GL_UNSIGNED_INT, 0);
@@ -71,8 +65,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 
 		super.render(renderState, poseStack, bufferSource, packedLight);
 
-		modelViewStack.popMatrix();
-//		poseStack.popPose();
+		poseStack.popPose();
 
 		// https://shaders.properties/_astro/sampler2darrayshadow.B_BOj-ZN_tLJ18.webp
 		renderState.priorState.restore();
