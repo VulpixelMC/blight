@@ -78,18 +78,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		renderState.priorState.restore();
 	}
 
-	@Override
-	public boolean shouldRender(
-			Echo livingEntity,
-			Frustum camera,
-			double camX,
-			double camY,
-			double camZ
-	) {
-		return true;
-//		return super.shouldRender(livingEntity, camera, camX, camY, camZ);
-	}
-
 	public EchoRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
