@@ -8,17 +8,14 @@ import gay.sylv.blight.client.api.render.GlSupport;
 import gay.sylv.blight.client.api.render.Shaders;
 import gay.sylv.blight.client.api.render.model.Icosphere;
 import gay.sylv.blight.client.impl.render.Rendering;
-import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fStack;
 import org.lwjgl.opengl.GL32C;
 
 public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderState> {
@@ -43,7 +40,8 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		GL32C.glBindFramebuffer(GL32C.GL_DRAW_FRAMEBUFFER, mainFbo);
 
 		poseStack.pushPose();
-		poseStack.scale(0.25f, 0.25f, 0.25f);
+		poseStack.scale(0.5f, 0.5f, 0.5f);
+		poseStack.translate(0.0f, 1.0f, 0.0f);
 
 		Matrix4f frustumMatrix = poseStack.last().pose();
 		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
