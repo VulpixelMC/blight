@@ -65,7 +65,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 
 		poseStack.popPose();
 
-		// https://shaders.properties/_astro/sampler2darrayshadow.B_BOj-ZN_tLJ18.webp
 		renderState.priorState.restore();
 	}
 
@@ -123,6 +122,9 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		public Vec3 position;
 		public PriorState priorState = new PriorState();
 
+		/**
+		 * <img src="fury.png" height="264" />
+		 */
 		public static class PriorState {
 			public int shaderProgram;
 
