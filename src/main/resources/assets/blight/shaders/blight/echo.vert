@@ -6,10 +6,13 @@ in vec3 position;
 uniform mat4 frustum_matrix;
 uniform mat4 model_view_matrix;
 uniform mat4 projection_matrix;
+uniform vec4 color;
+uniform float scale;
 
-out vec4 color;
+out vec4 frag_color;
 
 void main() {
-	gl_Position = projection_matrix * model_view_matrix * frustum_matrix * vec4(position, 1.0);
-	color = vec4(0.5, 0.75, 1.0, 0.5);
+	vec3 pos = position * scale;
+	gl_Position = projection_matrix * model_view_matrix * frustum_matrix * vec4(pos, 1.0);
+	frag_color = color;
 }

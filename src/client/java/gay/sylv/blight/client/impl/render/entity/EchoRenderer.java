@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL32C;
 
 public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderState> {
@@ -39,8 +40,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		GL32C.glBindFramebuffer(GL32C.GL_DRAW_FRAMEBUFFER, mainFbo);
 
 		poseStack.pushPose();
-		poseStack.scale(0.5f, 0.5f, 0.5f);
-		poseStack.translate(0.0f, 1.0f, 0.0f);
+		poseStack.translate(0.0f, 0.5f, 0.0f);
 
 		Matrix4f frustumMatrix = poseStack.last().pose();
 		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
@@ -51,20 +51,31 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		GL32C.glEnable(GL32C.GL_CULL_FACE);
 		GL32C.glCullFace(GL32C.GL_BACK);
 		GL32C.glEnable(GL32C.GL_BLEND);
-		GL32C.glBlendFunc(GL32C.GL_SRC_COLOR, GL32C.GL_ONE_MINUS_SRC_ALPHA);
+		GL32C.glBlendFunc(GL32C.GL_SRC_COLOR, GL32C.GL_ONE_MINUS_DST_ALPHA);
 
 		GL32C.glBindVertexArray(vao);
 		Shaders.ECHO.use();
 		Shaders.ECHO.setMat4("frustum_matrix", frustumMatrix);
 		Shaders.ECHO.setMat4("model_view_matrix", modelViewMatrix);
 		Shaders.ECHO.setMat4("projection_matrix", RenderSystem.getProjectionMatrix());
-		GL32C.glDrawElements(GL32C.GL_TRIANGLES, ICOSPHERE.getIndices().length, GL32C.GL_UNSIGNED_INT, 0);
+		// Inner
+		draw(0.75f, 0.85f, 1.0f, 0.25f, 0.25f);
+		// Middle
+		draw(0.75f / 2.0f, 0.85f / 2.0f, 1.0f / 2.0f, 0.375f, 0.3f);
+		// Outer
+		draw(0.6f, 0.75f, 1.0f, 0.5f, 0.425f);
 
 		super.render(renderState, poseStack, bufferSource, packedLight);
 
 		poseStack.popPose();
 
 		renderState.priorState.restore();
+	}
+
+	private void draw(float r, float g, float b, float a, float scale) {
+		Shaders.ECHO.setVec4("color", new Vector4f(r, g, b, a));
+		Shaders.ECHO.setFloat("scale", scale);
+		GL32C.glDrawElements(GL32C.GL_TRIANGLES, ICOSPHERE.getIndices().length, GL32C.GL_UNSIGNED_INT, 0);
 	}
 
 	public EchoRenderer(EntityRendererProvider.Context context) {
