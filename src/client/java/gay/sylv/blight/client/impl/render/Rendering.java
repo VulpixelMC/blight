@@ -2,7 +2,6 @@ package gay.sylv.blight.client.impl.render;
 
 import gay.sylv.blight.api.entity.BlightEntities;
 import gay.sylv.blight.client.api.render.GlSupport;
-import gay.sylv.blight.client.api.render.model.Icosphere;
 import gay.sylv.blight.client.impl.render.entity.EchoRenderer;
 import gay.sylv.blight.impl.BlightMod;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;

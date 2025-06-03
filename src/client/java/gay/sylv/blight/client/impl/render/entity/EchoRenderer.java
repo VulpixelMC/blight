@@ -42,8 +42,12 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		poseStack.pushPose();
 		poseStack.translate(0.0f, 0.5f, 0.0f);
 
-		// fixme: what the hell is a frustum matrix
-		Matrix4f frustumMatrix = poseStack.last().pose();
+		// A "local matrix" is a trick to perform transformations on the entity.
+		// It's preferable to just a "scale" variable because it also allows for
+		// translation and scaling in local space. It's also generally preferable
+		// that the GPU do matrix multiplication.
+		Matrix4f localMatrix = poseStack.last().pose();
+		// This is the actual model view matrix in entity rendering.
 		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
 
 		GL32C.glEnable(GL32C.GL_DEPTH_TEST);
@@ -56,7 +60,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 
 		GL32C.glBindVertexArray(vao);
 		Shaders.ECHO.use();
-		Shaders.ECHO.setMat4("frustum_matrix", frustumMatrix);
+		Shaders.ECHO.setMat4("local_matrix", localMatrix);
 		Shaders.ECHO.setMat4("model_view_matrix", modelViewMatrix);
 		Shaders.ECHO.setMat4("projection_matrix", RenderSystem.getProjectionMatrix());
 		// Inner
