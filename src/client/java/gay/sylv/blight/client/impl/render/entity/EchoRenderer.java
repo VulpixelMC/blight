@@ -20,7 +20,7 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL32C;
 
 public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderState> {
-	private static final Icosphere ICOSPHERE = new Icosphere(1);
+	private static final Icosphere ICOSPHERE = new Icosphere(2);
 	private static int vao;
 	private static int vbo;
 	private static int ebo;

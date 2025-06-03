@@ -1,7 +1,5 @@
 package gay.sylv.blight.client.api.render.model;
 
-import org.joml.Vector3f;
-
 /**
  * A class that generates an <a href="https://en.wikipedia.org/wiki/Icosphere"><b>icosphere</b></a>.
  */
@@ -58,88 +56,34 @@ public final class Icosphere {
 		};
 
 		// Fragment
-		int vertexStride = 3;
-		float[] sphereVertices = new float[icoVertices.length * depth * vertexStride];
-		int[] sphereIndices = new int[icoIndices.length * depth * vertexStride];
+//		int vertexStride = 3;
+//		float[] sphereVertices = new float[icoVertices.length + depth * icoIndices.length];
+//		int[] sphereIndices = new int[depth * icoIndices.length];
+//
+//		System.arraycopy(icoVertices, 0, sphereVertices, 0, icoVertices.length);
+//		System.arraycopy(icoIndices, 0, sphereIndices, 0, icoIndices.length);
 
-		System.arraycopy(icoVertices, 0, sphereVertices, 0, icoVertices.length);
-		System.arraycopy(icoIndices, 0, sphereIndices, 0, icoIndices.length);
+		// Subdivide
+		// Inspiration from https://github.com/TerraxGames/unnominable/blob/e23ab68f893bf81732ef29f753374b079f26f81d/src/world/planet.cpp#L18
+//		for (int i = 0; i < depth * icoIndices.length; i += vertexStride) {
+//			int lastVertex = icoVertices.length + i;
+//			int lastIndex = icoIndices.length + (i / vertexStride);
+//			float x = sphereVertices[i] + sphereVertices[i + 4];
+//			float y = sphereVertices[i + 1] + sphereVertices[i + 5];
+//			float z = sphereVertices[i + 2] + sphereVertices[i + 6];
+//			sphereVertices[lastVertex] = x;
+//			sphereVertices[lastVertex + 1] = y;
+//			sphereVertices[lastVertex + 2] = z;
+//			sphereIndices[lastIndex] = lastVertex;
+//		}
 
-		for (int depthIndex = 1; depthIndex < depth; depthIndex++) {
-			int lastIndex = icoVertices.length * depthIndex * vertexStride;
-			int lastIndexIdx = icoIndices.length * depthIndex * vertexStride;
-			float[] newSphereVertices = new float[icoVertices.length * (depthIndex + 1) * vertexStride];
-			int[] newSphereIndices = new int[icoIndices.length * (depthIndex + 1) * vertexStride];
-			for (int i = 0; i < sphereIndices.length; i += vertexStride * 6) {
-				int index0 = sphereIndices[i];
-				int index1 = sphereIndices[i + 1];
-				int index2 = sphereIndices[i + 2];
-				int index3 = sphereIndices[i + 3];
-				int index4 = sphereIndices[i + 4];
-				int index5 = sphereIndices[i + 5];
-				int index6 = sphereIndices[i + 6];
-				int index7 = sphereIndices[i + 7];
-				int index8 = sphereIndices[i + 8];
-				int index9 = lastIndex;
-				int index10 = lastIndex + 1;
-				int index11 = lastIndex + 2;
-				int index12 = lastIndex + 3;
-				int index13 = lastIndex + 4;
-				int index14 = lastIndex + 5;
-				int index15 = lastIndex + 6;
-				int index16 = lastIndex + 7;
-				int index17 = lastIndex + 8;
-
-				var v1 = new Vector3f(sphereVertices[index0], sphereVertices[index1], sphereVertices[index2]);
-				var v2 = new Vector3f(sphereVertices[index3], sphereVertices[index4], sphereVertices[index5]);
-				var v3 = new Vector3f(sphereVertices[index6], sphereVertices[index7], sphereVertices[index8]);
-
-				var v4 = ModelUtil.slerp(v1, v2, 0.5f);
-				var v5 = ModelUtil.slerp(v2, v3, 0.5f);
-				var v6 = ModelUtil.slerp(v3, v1, 0.5f);
-
-				newSphereVertices[index0] = v1.x;
-				newSphereVertices[index1] = v1.y;
-				newSphereVertices[index2] = v1.z;
-				newSphereVertices[index3] = v2.x;
-				newSphereVertices[index4] = v2.y;
-				newSphereVertices[index5] = v2.z;
-				newSphereVertices[index6] = v3.x;
-				newSphereVertices[index7] = v3.y;
-				newSphereVertices[index8] = v3.z;
-				newSphereVertices[index9] = v4.x;
-				newSphereVertices[index10] = v4.y;
-				newSphereVertices[index11] = v4.z;
-				newSphereVertices[index12] = v5.x;
-				newSphereVertices[index13] = v5.y;
-				newSphereVertices[index14] = v5.z;
-				newSphereVertices[index15] = v6.x;
-				newSphereVertices[index16] = v6.y;
-				newSphereVertices[index17] = v6.z;
-
-				newSphereIndices[lastIndexIdx] = index0;
-				newSphereIndices[lastIndexIdx + 1] = index9;
-				newSphereIndices[lastIndexIdx + 2] = index15;
-
-				newSphereIndices[lastIndexIdx + 3] = index9;
-				newSphereIndices[lastIndexIdx + 4] = index12;
-				newSphereIndices[lastIndexIdx + 5] = index15;
-
-				newSphereIndices[lastIndexIdx + 6] = index12;
-				newSphereIndices[lastIndexIdx + 7] = index6;
-				newSphereIndices[lastIndexIdx + 8] = index15;
-
-				newSphereIndices[lastIndexIdx + 9] = index9;
-				newSphereIndices[lastIndexIdx + 10] = index3;
-				newSphereIndices[lastIndexIdx + 11] = index12;
-
-				lastIndex += vertexStride * 6;
-				lastIndexIdx += vertexStride * 6;
-			}
-
-			System.arraycopy(newSphereVertices, 0, sphereVertices, 0, newSphereVertices.length);
-			System.arraycopy(newSphereIndices, 0, sphereIndices, 0, newSphereIndices.length);
-		}
+		// Normalize
+//		for (int i = 0; i < sphereVertices.length; i += 3) {
+//			float magnitude = (float) Math.sqrt(sphereVertices[i] * sphereVertices[i] + sphereVertices[i + 1] * sphereVertices[i + 1] + sphereVertices[i + 2] * sphereVertices[i + 2]);
+//			sphereVertices[i] /= magnitude;
+//			sphereVertices[i + 1] /= magnitude;
+//			sphereVertices[i + 2] /= magnitude;
+//		}
 
 		// Calculate normals
 //		float[] normals = ModelUtil.calculateNormals(icoVertices, icoIndices);
@@ -147,13 +91,13 @@ public final class Icosphere {
 //		int[] indices = ModelUtil.createIndicesForNormals(icoIndices, icoVertices.length, normals.length);
 //		this.vertices = vertices;
 //		this.indices = indices;
-		if (depth > 1) {
-			this.vertices = sphereVertices;
-			this.indices = sphereIndices;
-		} else {
+//		if (depth > 1) {
+//			this.vertices = sphereVertices;
+//			this.indices = sphereIndices;
+//		} else {
 			this.vertices = icoVertices;
 			this.indices = icoIndices;
-		}
+//		}
 	}
 
 	/**
