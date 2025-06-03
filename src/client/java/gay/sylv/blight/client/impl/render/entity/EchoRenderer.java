@@ -50,6 +50,8 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		GL32C.glDepthFunc(GL32C.GL_LEQUAL);
 		GL32C.glEnable(GL32C.GL_CULL_FACE);
 		GL32C.glCullFace(GL32C.GL_BACK);
+		GL32C.glEnable(GL32C.GL_BLEND);
+		GL32C.glBlendFunc(GL32C.GL_SRC_COLOR, GL32C.GL_ONE_MINUS_SRC_ALPHA);
 
 		GL32C.glBindVertexArray(vao);
 		Shaders.ECHO.use();
