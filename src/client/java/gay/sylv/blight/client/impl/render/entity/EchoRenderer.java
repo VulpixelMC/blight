@@ -42,6 +42,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		poseStack.pushPose();
 		poseStack.translate(0.0f, 0.5f, 0.0f);
 
+		// fixme: what the hell is a frustum matrix
 		Matrix4f frustumMatrix = poseStack.last().pose();
 		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
 
