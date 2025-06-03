@@ -1,8 +1,6 @@
 package gay.sylv.blight.client.api.render;
 
 import gay.sylv.blight.client.impl.render.Rendering;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceProvider;

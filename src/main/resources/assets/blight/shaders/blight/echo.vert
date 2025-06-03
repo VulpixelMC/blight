@@ -9,10 +9,10 @@ uniform mat4 projection_matrix;
 uniform vec4 color;
 uniform float scale;
 
-out vec4 frag_color;
+out vec4 vertex_color;
 
 void main() {
 	vec3 pos = position * scale;
 	gl_Position = projection_matrix * model_view_matrix * local_matrix * vec4(pos, 1.0);
-	frag_color = color;
+	vertex_color = color;
 }
