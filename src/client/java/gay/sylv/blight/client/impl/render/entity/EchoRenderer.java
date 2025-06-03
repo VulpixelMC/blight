@@ -75,6 +75,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		poseStack.popPose();
 
 		renderState.priorState.restore();
+		GL32C.glBindVertexArray(0); // Don't allow other entities to corrupt this VAO
 	}
 
 	private void draw(float r, float g, float b, float a, float scale) {
