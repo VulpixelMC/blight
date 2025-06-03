@@ -27,7 +27,6 @@ public class ShaderProgram {
 	private final ShaderType[] shaderTypes;
 	private int program = -1;
 	private boolean compiled = false;
-	private final Int2ObjectMap<String> vertexAttributeLocations = new Int2ObjectArrayMap<>();
 
 	/**
 	 * Create a new shader program object.
@@ -61,7 +60,7 @@ public class ShaderProgram {
 		for (ShaderType shaderType : shaderTypes) {
 			try {
 				String shaderSource = openShader(resourceProvider, id, shaderType, shaderNamespace);
-//				shaderSource = shaderSource.replace("#version 150 core", "#version 150 core\n#extension ARB_separate_shader_objects : enable");
+				shaderSource = shaderSource.replace("#version 150 core", "#version 150 core\n#extension ARB_separate_shader_objects : enable");
 				int shader = GL32C.glCreateShader(shaderType.getGlType());
 				GL32C.glShaderSource(shader, shaderSource);
 				GL32C.glCompileShader(shader);
@@ -76,10 +75,6 @@ public class ShaderProgram {
 					GL32C.glDeleteProgram(program);
 					return false;
 				}
-
-				vertexAttributeLocations.forEach((index, name) -> {
-					GL32C.glBindAttribLocation(program, index, name);
-				});
 
 				GL32C.glAttachShader(program, shader);
 				GL32C.glDeleteShader(shader);
@@ -122,15 +117,6 @@ public class ShaderProgram {
 
 	public void setFloat(String name, float value) {
 		GL32C.glUniform1f(GL32C.glGetUniformLocation(program, name), value);
-	}
-
-	/**
-	 * Set up a Vertex Attribute's location for shader linkage.
-	 * @param index The vertex attribute index.
-	 * @param name The string name in the shader.
-	 */
-	public void setVertex(int index, String name) {
-		vertexAttributeLocations.put(index, name);
 	}
 
 	public void use() {

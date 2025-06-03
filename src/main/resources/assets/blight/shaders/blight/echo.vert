@@ -1,6 +1,6 @@
 #version 150 core
 
-in vec3 position;
+layout (location = 0) in vec3 position;
 //in vec3 normal;
 
 uniform mat4 local_matrix;

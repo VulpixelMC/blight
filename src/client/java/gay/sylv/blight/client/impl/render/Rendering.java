@@ -8,10 +8,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
+import static gay.sylv.blight.client.api.render.GlSupport.Extension.*;
+
 public final class Rendering {
 	public static final Logger LOGGER = BlightMod.createLogger("Client", "Rendering");
 	public static final GlSupport.Capability[] REQUIRED_CAPABILITIES = new GlSupport.Capability[]{
-//			GL_ARB_separate_shader_objects,
+			GL_ARB_separate_shader_objects,
 	};
 
 	private Rendering() {}

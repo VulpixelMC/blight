@@ -113,7 +113,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 				0
 		);
 		GL32C.glEnableVertexAttribArray(0);
-		Shaders.ECHO.setVertex(0, "position");
 
 		GL32C.glBindVertexArray(0);
 	}
