@@ -34,7 +34,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 	) {
 		if (!Shaders.ECHO.isCompiled() || !GlSupport.Capability.allSupported(Rendering.REQUIRED_CAPABILITIES)) return;
 
-		// https://shaders.properties/_astro/sampler2darrayshadow.B_BOj-ZN_tLJ18.webp
 		renderState.priorState.preserve();
 
 		GL32C.glBindFramebuffer(GL32C.GL_DRAW_FRAMEBUFFER, mainFbo);
@@ -58,8 +57,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		Shaders.ECHO.setMat4("model_view_matrix", modelViewMatrix);
 		Shaders.ECHO.setMat4("projection_matrix", RenderSystem.getProjectionMatrix());
 		GL32C.glDrawElements(GL32C.GL_TRIANGLES, ICOSPHERE.getIndices().length, GL32C.GL_UNSIGNED_INT, 0);
-
-		GL32C.glDisable(GL32C.GL_CULL_FACE);
 
 		super.render(renderState, poseStack, bufferSource, packedLight);
 
@@ -127,13 +124,42 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		 */
 		public static class PriorState {
 			public int shaderProgram;
+			public boolean depthTest;
+			public boolean depthMask;
+			public int depthFunc;
+			public boolean faceCulling;
+			public boolean blend;
+			public int blendSrcRgb, blendDstRgb, blendSrcAlpha, blendDstAlpha;
 
 			public void preserve() {
 				shaderProgram = GL32C.glGetInteger(GL32C.GL_CURRENT_PROGRAM);
+				depthTest = GL32C.glGetBoolean(GL32C.GL_DEPTH_TEST);
+				depthMask = GL32C.glGetBoolean(GL32C.GL_DEPTH_WRITEMASK);
+				depthFunc = GL32C.glGetInteger(GL32C.GL_DEPTH_FUNC);
+				faceCulling = GL32C.glGetBoolean(GL32C.GL_CULL_FACE);
+				blend = GL32C.glGetBoolean(GL32C.GL_BLEND);
+				blendSrcRgb = GL32C.glGetInteger(GL32C.GL_BLEND_SRC_RGB);
+				blendDstRgb = GL32C.glGetInteger(GL32C.GL_BLEND_DST_RGB);
+				blendSrcAlpha = GL32C.glGetInteger(GL32C.GL_BLEND_SRC_ALPHA);
+				blendDstAlpha = GL32C.glGetInteger(GL32C.GL_BLEND_DST_ALPHA);
 			}
 
 			public void restore() {
 				GL32C.glUseProgram(shaderProgram);
+				setEnabled(GL32C.GL_DEPTH_TEST, depthTest);
+				GL32C.glDepthMask(depthMask);
+				GL32C.glDepthFunc(depthFunc);
+				setEnabled(GL32C.GL_CULL_FACE, faceCulling);
+				setEnabled(GL32C.GL_BLEND, blend);
+				GL32C.glBlendFuncSeparate(blendSrcRgb, blendDstRgb, blendSrcAlpha, blendDstAlpha);
+			}
+
+			private static void setEnabled(int target, boolean enabled) {
+				if (enabled) {
+					GL32C.glEnable(target);
+				} else {
+					GL32C.glDisable(target);
+				}
 			}
 		}
 	}
