@@ -134,6 +134,8 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		public PriorState priorState = new PriorState();
 
 		/**
+		 * According to the <a href="https://www.khronos.org/opengl/wiki/Common_Mistakes#glGetFloatv_glGetBooleanv_glGetDoublev_glGetIntegerv">OpenGL wiki</a>, {@code glGet} is a slow operation. We would be caching this if it weren't for unpredictable state.
+		 * <br>
 		 * <img src="fury.png" height="264" />
 		 */
 		public static class PriorState {
