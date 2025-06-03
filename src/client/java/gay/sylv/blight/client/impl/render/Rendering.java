@@ -25,7 +25,5 @@ public final class Rendering {
 		);
 		EntityRendererRegistry.register(BlightEntities.ECHO, EchoRenderer::new);
 		EchoRenderer.init();
-
-		new Icosphere(1);
 	}
 }
