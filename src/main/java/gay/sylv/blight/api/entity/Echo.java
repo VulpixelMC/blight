@@ -1,10 +1,15 @@
 package gay.sylv.blight.api.entity;
 
+import gay.sylv.blight.impl.mixin.Accessor_Mob;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * <h1>Echo</h1>
@@ -22,5 +27,26 @@ public class Echo extends Mob {
 	@Override
 	public @NotNull HumanoidArm getMainArm() {
 		return HumanoidArm.LEFT; // Echoes are canonically left-handed
+	}
+
+	@Override
+	protected void playHurtSound(DamageSource source) {
+		((Accessor_Mob) this).invokeResetAmbientSoundTime();
+		playHurtDeathSound(2.0f);
+	}
+
+	@Override
+	protected @Nullable SoundEvent getDeathSound() {
+		playHurtDeathSound(0.5f);
+		return null;
+	}
+
+	@Override
+	protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+		return null;
+	}
+
+	private void playHurtDeathSound(float pitch) {
+		this.playSound(SoundEvents.CREEPER_DEATH, this.getSoundVolume(), this.getVoicePitch() * pitch);
 	}
 }

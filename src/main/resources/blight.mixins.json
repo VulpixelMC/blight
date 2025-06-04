@@ -1,9 +1,11 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "gay.sylv.blight.mixin",
+	"package": "gay.sylv.blight.impl.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
+	"mixins": [
+		"Accessor_Mob"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

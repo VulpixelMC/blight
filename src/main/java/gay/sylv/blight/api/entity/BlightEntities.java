@@ -29,7 +29,7 @@ public final class BlightEntities {
 				"echo",
 				EntityType.Builder.of(Echo::new, MobCategory.CREATURE),
 				Echo.createMobAttributes()
-						.add(Attributes.MAX_HEALTH, 7.0f)
+						.add(Attributes.MAX_HEALTH, 1.0f)
 		);
 	}
 
