@@ -140,7 +140,9 @@ sourceSets {
 }
 
 fabricApi {
-	configureDataGeneration()
+	configureDataGeneration {
+		client = true
+	}
 }
 
 java {

@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "blight:item/echo_spawn_egg"
+  }
+}

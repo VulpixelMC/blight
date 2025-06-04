@@ -19,6 +19,8 @@
 package gay.sylv.blight.impl;
 
 import gay.sylv.blight.api.entity.BlightEntities;
+import gay.sylv.blight.api.item.BlightCreativeModeTabs;
+import gay.sylv.blight.api.item.BlightItems;
 import gay.sylv.blight.impl.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -33,6 +35,8 @@ public final class BlightMod implements ModInitializer {
 		LOGGER.info("Blight started");
 
 		BlightEntities.init();
+		BlightItems.init();
+		BlightCreativeModeTabs.init();
 	}
 
 	public static Logger createLogger(String... paths) {
