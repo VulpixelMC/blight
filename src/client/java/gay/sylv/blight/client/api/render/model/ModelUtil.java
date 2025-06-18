@@ -5,7 +5,9 @@ import org.joml.Vector3f;
 /**
  * A grab-bag of utilities for handling models.
  */
-public class ModelUtil {
+public final class ModelUtil {
+	private ModelUtil() {}
+
 	/**
 	 * Calculates the normals for an array of triangle vertices.
 	 * @param vertices An array of three vertices per point.

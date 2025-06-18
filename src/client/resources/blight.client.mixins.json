@@ -4,6 +4,7 @@
 	"package": "gay.sylv.blight.client.impl.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"Accessor_MeshData"
 	],
 	"injectors": {
 		"defaultRequire": 1

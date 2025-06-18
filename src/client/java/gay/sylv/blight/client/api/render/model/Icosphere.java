@@ -1,9 +1,13 @@
 package gay.sylv.blight.client.api.render.model;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+import gay.sylv.blight.client.api.render.pipeline.BlightPipelines;
+
 /**
  * A class that generates an <a href="https://en.wikipedia.org/wiki/Icosphere"><b>icosphere</b></a>.
  */
-public final class Icosphere {
+public final class Icosphere extends Model {
 	private final float[] vertices;
 	private final int[] indices;
 
@@ -14,10 +18,10 @@ public final class Icosphere {
 	public Icosphere(int depth) {
 		// https://blog.lslabs.dev/posts/generating_icosphere_with_code
 		// Create icosahedron
-		float a = 0.525731112119134f;
-		float b = 0.000000101405476f;
-		float c = 0.85065080835157f;
-		float d = 0.00000006267203f;
+		final float a = 0.525731112119134f;
+		final float b = 0.000000101405476f;
+		final float c = 0.85065080835157f;
+		final float d = 0.00000006267203f;
 		float[] icoVertices = {
 				c, a, 0.0f, // 0
 				b, c, -a, // 1
@@ -97,6 +101,8 @@ public final class Icosphere {
 //		} else {
 			this.vertices = icoVertices;
 			this.indices = icoIndices;
+			this.setVertexBuffer(vertices, BlightPipelines.ECHO);
+			this.setIndexBuffer(indices);
 //		}
 	}
 

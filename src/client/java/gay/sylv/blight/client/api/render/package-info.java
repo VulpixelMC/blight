@@ -1,10 +1,6 @@
 /**
  * <h1>Blight Rendering API</h1>
- * Due to its complex nature, Blight must render everything using raw OpenGL calls.
- * All of that can be found in this package.
- * <br>
- * This package contains thin wrappers around OpenGL.
- * The goal is not to be 100% error-proof, rather to Just Work in a pinch.
+ * This package contains helpers in line with Minecraft's rendering API.
  * <br>
  * <h2>Attribution</h2>
  * This code has been <s>stolen</s> taken from the <a href="https://modrinth.com/mod/weird-wares">Weird Wares</a>
