@@ -1,7 +1,5 @@
 package gay.sylv.blight.client.api.render.model;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import gay.sylv.blight.client.api.render.pipeline.BlightPipelines;
 
 /**

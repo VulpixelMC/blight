@@ -8,8 +8,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import gay.sylv.blight.client.api.render.buffer.BufferUtil;
 import gay.sylv.blight.client.impl.mixin.Accessor_MeshData;
 import it.unimi.dsi.fastutil.ints.IntConsumer;
-import org.apache.commons.lang3.mutable.MutableLong;
-import org.lwjgl.system.MemoryUtil;
 
 import java.util.Objects;
 
