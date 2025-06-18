@@ -5,8 +5,10 @@ import gay.sylv.blight.api.vm.error.BlightError;
 import gay.sylv.blight.api.vm.error.BlightResult;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
+import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Map;
@@ -25,14 +27,15 @@ public final class BlightVM {
 	private List<Nature> instructions;
 	private final Stack<BlightObject> stack = new Stack<>();
 	private final Int2ObjectMap<BlightObject> variables = new Int2ObjectOpenHashMap<>();
+	private int group = 0;
+	private final Vector3i semanticGroup = new Vector3i(0, 0, 0);
 
 	// -- VM Operation --
 
 	/**
 	 * Increment the program counter.
-	 * @param pc The program counter.
 	 */
-	public void incPc(int pc) {
+	public void incPc() {
 		this.pc++;
 	}
 
@@ -69,6 +72,10 @@ public final class BlightVM {
 		clearStack();
 		clearVariables();
 		instructions = null;
+		group = 0;
+		semanticGroup.x = 0;
+		semanticGroup.y = 0;
+		semanticGroup.z = 0;
 	}
 
 	/**
@@ -77,7 +84,60 @@ public final class BlightVM {
 	 */
 	public BlightResult<Nothing> execute() {
 		// Execute current instruction
+		Nature nature = instructions.get(pc);
+		BlightObject last = stack.peek();
+		switch (nature) {
+			case Inverse -> last.setNumber(1.0f / last.getNumber());
+			case Negative -> last.setNumber(-last.getNumber());
+			case Creative -> stack.push(new BlightObject(0.0f));
+			case Successive -> last.setNumber(last.getNumber() + 1.0f);
+			case Double -> last.setNumber(last.getNumber() * 2.0f);
+			case Triple -> last.setNumber(last.getNumber() * 3.0f);
+			case Quintuple -> last.setNumber(last.getNumber() * 5.0f);
+			case Septuple -> last.setNumber(last.getNumber() * 7.0f);
+			case Additive -> {
+				float number = stack.pop().getNumber() + stack.peek().getNumber();
+				stack.peek().setNumber(number);
+			}
+			case Multiplicative -> {
+				float number = stack.pop().getNumber() * stack.peek().getNumber();
+				stack.peek().setNumber(number);
+			}
+			case Duplicative -> stack.push(last.clone());
+			case Permutative -> {
+				int length = stack.pop().getInt();
+				BlightObject[] reverse =  new BlightObject[length];
+				for (int i = 0; i < length; i++) {
+					stack.pop();
+					reverse[(length - 1) - i] = stack.pop();
+				}
+				stack.addAll(List.of(reverse));
+			}
+			case Executive -> {
+				return BlightResult.error(
+						BlightError.HEX_UNIMPLEMENTED,
+						group,
+						semanticGroup.x,
+						semanticGroup.y,
+						semanticGroup.z,
+						last.getInt()
+				);
+			}
+			case Reflective, Functional -> {
+				return BlightResult.error(
+						BlightError.NATURE_UNIMPLEMENTED,
+						nature.getSymbol()
+				);
+			}
+			case Grouping -> this.group = Mth.floor(stack.pop().getNumber());
+			case Semantic -> {
+				this.semanticGroup.z = stack.pop().getInt();
+				this.semanticGroup.y = stack.pop().getInt();
+				this.semanticGroup.x = stack.pop().getInt();
+			}
+		}
 
+		incPc();
 		return BlightResult.success(Nothing.INSTANCE);
 	}
 

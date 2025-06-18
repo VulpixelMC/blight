@@ -1,6 +1,7 @@
 package gay.sylv.blight.api.vm.error;
 
 import gay.sylv.blight.api.vm.BlightVM;
+import gay.sylv.blight.impl.util.Constants;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -8,12 +9,14 @@ import net.minecraft.network.chat.Component;
  */
 public enum BlightError {
 	NO_ENTITY("no_entity"),
-	NO_VARIABLE("no_variable"),;
+	NO_VARIABLE("no_variable"),
+	HEX_UNIMPLEMENTED("hex_unimplemented"),
+	NATURE_UNIMPLEMENTED("nature_unimplemented"),;
 
 	private final String transKey;
 
 	BlightError(String transKey) {
-		this.transKey = "blight.vm.error." + transKey;
+		this.transKey = Constants.MOD_ID + ".vm.error." + transKey;
 	}
 
 	/**

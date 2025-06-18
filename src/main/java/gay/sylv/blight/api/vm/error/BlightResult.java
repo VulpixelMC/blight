@@ -13,15 +13,18 @@ import java.util.function.Predicate;
 public final class BlightResult<T> {
 	private final T result;
 	private final BlightError error;
+	private final Object[] errorArgs;
 
 	private BlightResult(@NotNull T result) {
 		this.result = result;
 		this.error = null;
+		this.errorArgs = null;
 	}
 
-	private BlightResult(@NotNull BlightError error) {
+	private BlightResult(@NotNull BlightError error, Object ...errorArgs) {
 		this.result = null;
 		this.error = error;
+		this.errorArgs = errorArgs;
 	}
 
 	/**
@@ -37,11 +40,12 @@ public final class BlightResult<T> {
 	/**
 	 * Create a {@link BlightResult} for an error.
 	 * @param error The error that occurred.
+	 * @param errorArgs The error's arguments.
 	 * @return The error wrapped in a {@link BlightResult}.
 	 * @param <T> The normal result's type.
 	 */
-	public static <T> BlightResult<T> error(@NotNull BlightError error) {
-		return new BlightResult<>(error);
+	public static <T> BlightResult<T> error(@NotNull BlightError error, Object ...errorArgs) {
+		return new BlightResult<>(error, errorArgs);
 	}
 
 	/**

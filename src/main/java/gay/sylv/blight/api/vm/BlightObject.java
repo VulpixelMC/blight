@@ -3,16 +3,37 @@ package gay.sylv.blight.api.vm;
 import gay.sylv.blight.api.vm.error.BlightError;
 import gay.sylv.blight.api.vm.error.BlightResult;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
  * <h1>Blight Object</h1>
  * An <b>Object</b> in the {@link BlightVM} is a decimal or integer number, or a {@link LivingEntity}.
  */
-public class BlightObject {
+public class BlightObject implements Cloneable {
 	private Type type;
 	private float number;
 	private LivingEntity entity;
+
+	public BlightObject(float number) {
+		setNumber(number);
+	}
+
+	public BlightObject(LivingEntity entity) {
+		setEntity(entity);
+	}
+
+	/**
+	 * @return A deep clone of this {@link BlightObject}
+	 */
+	@SuppressWarnings("MethodDoesntCallSuperMethod")
+	@Override
+	public BlightObject clone() {
+		return switch (this.type) {
+			case NUMBER -> new BlightObject(number);
+			case ENTITY -> new BlightObject(entity);
+		};
+	}
 
 	/**
 	 * @return This Object's {@link Type}.
@@ -35,6 +56,13 @@ public class BlightObject {
 	 */
 	public float getNumber() {
 		return type == Type.ENTITY ? -1 : number;
+	}
+
+	/**
+	 * @return This Object as an {@code int} number or {@code -1} if this is an Entity.
+	 */
+	public int getInt() {
+		return Mth.floor(getNumber());
 	}
 
 	/**

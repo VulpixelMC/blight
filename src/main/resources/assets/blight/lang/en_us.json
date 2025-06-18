@@ -1,6 +1,8 @@
 {
 	"blight.vm.error.no_entity": "This Object is not an Entity",
 	"blight.vm.error.no_variable": "Variable %1$s does not exist",
+	"blight.vm.error.hex_unimplemented": "Hex (%2$d:%3$d:%4$d;%5$d)%1$d is unimplemented",
+	"blight.vm.error.nature_unimplemented": "Nature %1$c is unimplemented",
 	"blight.vm.object.number": "Number",
 	"blight.vm.object.entity": "Entity",
 	"entity.blight.echo": "Echo",
