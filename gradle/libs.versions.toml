@@ -4,7 +4,7 @@
 
 # Base
 minecraft = "1.21.5"
-parchment = "2025.04.19"
+parchment = "2025.06.15"
 fabric_loader = "0.16.14"
 
 # Libraries
@@ -21,7 +21,6 @@ resource_explorer = "dV5Uopqw"
 [libraries]
 # Base
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-parchment = { module = "org.parchmentmc.data:parchment-1.21.5", version.ref = "parchment" }
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 # Libraries

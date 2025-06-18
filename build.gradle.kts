@@ -77,7 +77,7 @@ dependencies {
 	minecraft(libs.minecraft)
 	mappings(loom.layered {
 		officialMojangMappings()
-		parchment(libs.parchment)
+		parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
 	})
 
 	// Loader
