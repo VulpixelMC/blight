@@ -27,14 +27,7 @@ import gay.sylv.blight.client.api.render.shaders.BlightShaders;
 public final class BlightPipelines {
 	public static final BlightRenderPipeline ECHO_PASS_1 = BlightRenderPipeline.builder()
 			.withLocation(BlightShaders.ECHO)
-			.withStencilTestMask(0xFF)
-			.withStencilTestFunction(new StencilFunction(StencilFunction.Type.ALWAYS, 1, 0xFF))
-			.withStencilTestOperation(new StencilOperation(
-					StencilOperation.Type.ZERO,
-					StencilOperation.Type.ZERO,
-					StencilOperation.Type.ZERO
-			))
-			.withColorWrite(false)
+			.withColorWrite(true)
 			.withDepthWrite(true)
 			.withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
 			.withCull(true)
@@ -54,9 +47,9 @@ public final class BlightPipelines {
 
 	public static final BlightRenderPipeline ECHO_PASS_2 = BlightRenderPipeline.builder()
 			.withLocation(BlightShaders.ECHO)
-			.withColorWrite(true)
+			.withColorWrite(false)
 			.withDepthWrite(false)
-			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+			.withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
 			.withCull(true)
 			.withVertexShader(BlightShaders.ECHO)
 			.withFragmentShader(BlightShaders.ECHO)

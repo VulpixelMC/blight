@@ -26,6 +26,9 @@ public class Mixin_GlCommandEncoder {
 			} else {
 				GL32C.glDisable(GL32C.GL_STENCIL_TEST);
 			}
+		} else {
+			// If you don't use Blight3D, don't allow illegal Stencil Testing
+			GL32C.glDisable(GL32C.GL_STENCIL_TEST);
 		}
 	}
 

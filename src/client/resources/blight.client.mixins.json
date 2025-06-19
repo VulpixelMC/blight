@@ -6,6 +6,7 @@
 	"client": [
 		"Accessor_MeshData",
 		"blight3d.Mixin_GlCommandEncoder",
+		"blight3d.Mixin_GlConst",
 		"blight3d.Mixin_GlRenderPass"
 	],
 	"injectors": {

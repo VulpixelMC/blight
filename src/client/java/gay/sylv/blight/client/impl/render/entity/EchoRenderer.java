@@ -54,7 +54,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 				mc.getMainRenderTarget().getDepthTexture(),
 				OptionalDouble.empty()
 		)) {
-			pass.blight$enableStencil();
 			renderWithPipeline(poseStack, pass, BlightPipelines.ECHO_PASS_1);
 		}
 
