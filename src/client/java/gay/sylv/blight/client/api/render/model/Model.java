@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import gay.sylv.blight.client.api.render.buffer.BufferUtil;
+import gay.sylv.blight.client.api.render.buffers.BufferUtil;
 import gay.sylv.blight.client.impl.mixin.Accessor_MeshData;
 import it.unimi.dsi.fastutil.ints.IntConsumer;
 

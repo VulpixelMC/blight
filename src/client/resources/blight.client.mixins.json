@@ -4,7 +4,9 @@
 	"package": "gay.sylv.blight.client.impl.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"Accessor_MeshData"
+		"Accessor_MeshData",
+		"blight3d.Mixin_GlCommandEncoder",
+		"blight3d.Mixin_GlRenderPass"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,4 +1,4 @@
-package gay.sylv.blight.client.api.render.buffer;
+package gay.sylv.blight.client.api.render.buffers;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import it.unimi.dsi.fastutil.ints.IntConsumer;

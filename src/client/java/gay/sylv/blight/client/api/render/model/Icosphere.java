@@ -99,7 +99,7 @@ public final class Icosphere extends Model {
 //		} else {
 			this.vertices = icoVertices;
 			this.indices = icoIndices;
-			this.setVertexBuffer(vertices, BlightPipelines.ECHO);
+			this.setVertexBuffer(vertices, BlightPipelines.ECHO_PASS_1);
 			this.setIndexBuffer(indices);
 //		}
 	}
