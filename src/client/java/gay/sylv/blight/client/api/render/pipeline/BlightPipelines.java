@@ -19,7 +19,7 @@ import gay.sylv.blight.client.api.render.shader.BlightShaders;
  * Clear your Depth Buffers and hold on to your belongings, else you risk
  * summoning an interdimensional rendering demon named Karl.
  * <br>
- * <img src="beware.jpg" height="582" />
+ * <img src="beware.jpg" height="291" />
  */
 public final class BlightPipelines {
 	public static final RenderPipeline ECHO = RenderPipeline.builder()
