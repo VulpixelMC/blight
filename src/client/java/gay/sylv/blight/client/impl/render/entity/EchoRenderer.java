@@ -97,7 +97,8 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		// Middle
 		draw(pass, 0.75f / 2.0f, 0.85f / 2.0f, 1.0f / 2.0f, 0.375f, 0.3f);
 		// Outer
-		draw(pass, 0.6f, 0.75f, 1.0f, 0.5f, 0.425f);
+		draw(pass, 0.6f, 0.75f, 1.0f, 0.625f, 0.425f);
+		draw(pass, 0.6f, 0.75f, 1.0f, 0.9f, 0.426f);
 	}
 
 	private void draw(RenderPass pass, float r, float g, float b, float a, float scale) {

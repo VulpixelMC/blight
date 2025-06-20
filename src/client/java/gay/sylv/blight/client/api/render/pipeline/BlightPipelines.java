@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormatElement;
 import gay.sylv.blight.client.api.render.blight3d.pipeline.BlightRenderPipeline;
 import gay.sylv.blight.client.api.render.blight3d.pipeline.StencilFunction;
 import gay.sylv.blight.client.api.render.blight3d.pipeline.StencilOperation;
@@ -27,7 +28,7 @@ import gay.sylv.blight.client.api.render.shaders.BlightShaders;
 public final class BlightPipelines {
 	public static final BlightRenderPipeline ECHO_PASS_1 = BlightRenderPipeline.builder()
 			.withLocation(BlightShaders.ECHO)
-			.withColorWrite(true)
+			.withColorWrite(false)
 			.withDepthWrite(true)
 			.withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
 			.withCull(true)
@@ -35,7 +36,7 @@ public final class BlightPipelines {
 			.withFragmentShader(BlightShaders.ECHO)
 			.withBlend(new BlendFunction(SourceFactor.SRC_COLOR, DestFactor.ONE_MINUS_DST_ALPHA))
 			.withVertexFormat(
-					DefaultVertexFormat.POSITION,
+					BlightVertexFormats.POSITION_NORMAL,
 					VertexFormat.Mode.TRIANGLES
 			)
 			.withUniform("LocalMat", UniformType.MATRIX4X4)
@@ -47,15 +48,15 @@ public final class BlightPipelines {
 
 	public static final BlightRenderPipeline ECHO_PASS_2 = BlightRenderPipeline.builder()
 			.withLocation(BlightShaders.ECHO)
-			.withColorWrite(false)
+			.withColorWrite(true)
 			.withDepthWrite(false)
-			.withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
+			.withDepthTestFunction(DepthTestFunction.GREATER_DEPTH_TEST)
 			.withCull(true)
 			.withVertexShader(BlightShaders.ECHO)
 			.withFragmentShader(BlightShaders.ECHO)
 			.withBlend(new BlendFunction(SourceFactor.SRC_COLOR, DestFactor.ONE_MINUS_DST_ALPHA))
 			.withVertexFormat(
-					DefaultVertexFormat.POSITION,
+					BlightVertexFormats.POSITION_NORMAL,
 					VertexFormat.Mode.TRIANGLES
 			)
 			.withUniform("LocalMat", UniformType.MATRIX4X4)
