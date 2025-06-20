@@ -88,19 +88,19 @@ public final class Icosphere extends Model {
 //		}
 
 		// Calculate normals
-//		float[] normals = ModelUtil.calculateNormals(icoVertices, icoIndices);
-//		float[] vertices = ModelUtil.combineVerticesAndNormals(icoVertices, normals);
-//		int[] indices = ModelUtil.createIndicesForNormals(icoIndices, icoVertices.length, normals.length);
+		float[] normals = ModelUtil.calculateNormals(icoVertices, icoIndices);
+		float[] vertices = ModelUtil.combineVerticesAndNormals(icoVertices, normals);
+		int[] indices = ModelUtil.createIndicesForNormals(icoIndices, icoVertices.length, normals.length);
 //		this.vertices = vertices;
 //		this.indices = indices;
 //		if (depth > 1) {
 //			this.vertices = sphereVertices;
 //			this.indices = sphereIndices;
 //		} else {
-			this.vertices = icoVertices;
-			this.indices = icoIndices;
-			this.setVertexBuffer(vertices, BlightPipelines.ECHO_PASS_1);
-			this.setIndexBuffer(indices);
+			this.vertices = vertices;
+			this.indices = indices;
+			this.setVertexBuffer(this.vertices, BlightPipelines.ECHO_PASS_1);
+			this.setIndexBuffer(this.indices);
 //		}
 	}
 

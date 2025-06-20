@@ -14,8 +14,8 @@ import gay.sylv.blight.api.entity.Echo;
 import gay.sylv.blight.client.api.render.model.Icosphere;
 import gay.sylv.blight.client.api.render.blight3d.BlightRenderPass;
 import gay.sylv.blight.client.api.render.pipeline.BlightPipelines;
-import gay.sylv.blight.client.impl.render.Rendering;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Vector3fc;
 import org.lwjgl.opengl.GL32C;
 
 import java.util.OptionalDouble;
@@ -33,6 +34,10 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 	private static final Icosphere ICOSPHERE = new Icosphere(2);
 	private static GpuBuffer vertexBuffer;
 	private static GpuBuffer indexBuffer;
+
+	public EchoRenderer(EntityRendererProvider.Context context) {
+		super(context);
+	}
 
 	@Override
 	public void render(
@@ -54,7 +59,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 				mc.getMainRenderTarget().getDepthTexture(),
 				OptionalDouble.empty()
 		)) {
-			renderWithPipeline(poseStack, pass, BlightPipelines.ECHO_PASS_1);
+			renderWithPipeline(renderState, poseStack, pass, BlightPipelines.ECHO_PASS_1);
 		}
 
 		try (BlightRenderPass pass = (BlightRenderPass) encoder.createRenderPass(
@@ -63,7 +68,7 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 				mc.getMainRenderTarget().getDepthTexture(),
 				OptionalDouble.empty()
 		)) {
-			renderWithPipeline(poseStack, pass, BlightPipelines.ECHO_PASS_2);
+			renderWithPipeline(renderState, poseStack, pass, BlightPipelines.ECHO_PASS_2);
 		}
 
 		super.render(renderState, poseStack, bufferSource, packedLight);
@@ -72,8 +77,9 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 	}
 
 	private void renderWithPipeline(
+			EchoRenderState renderState,
 			PoseStack poseStack,
-			RenderPass pass,
+			BlightRenderPass pass,
 			RenderPipeline pipeline
 	) {
 		pass.setPipeline(pipeline);
@@ -84,14 +90,21 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		// that the GPU do matrix multiplication.
 		Matrix4f localMatrix = poseStack.last().pose();
 		// This is the actual model view matrix in entity rendering.
-		Matrix4f modelViewMatrix = new Matrix4f(RenderSystem.getModelViewStack());
+		Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix();
 
 		pass.setVertexBuffer(0, vertexBuffer);
 		pass.setIndexBuffer(indexBuffer, VertexFormat.IndexType.INT);
 
+		Camera camera = this.entityRenderDispatcher.camera;
+		Matrix4f viewMatrix = new Matrix4f()
+				.translate(camera.getPosition().toVector3f())
+				.rotation(camera.rotation());
+
 		pass.setUniform("LocalMat",  localMatrix);
+		pass.setUniform("ViewMat", viewMatrix);
 		pass.setUniform("ModelViewMat", modelViewMatrix);
 		pass.setUniform("ProjMat", RenderSystem.getProjectionMatrix());
+		pass.setUniform("CameraPos", camera.getPosition());
 		// Inner
 		draw(pass, 0.75f, 0.85f, 1.0f, 0.25f, 0.25f);
 		// Middle
@@ -105,10 +118,6 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		pass.setUniform("Color", r, g, b, a);
 		pass.setUniform("Scale", scale);
 		pass.drawIndexed(0, indexBuffer.size());
-	}
-
-	public EchoRenderer(EntityRendererProvider.Context context) {
-		super(context);
 	}
 
 	public static void init() {

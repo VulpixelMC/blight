@@ -40,10 +40,12 @@ public final class BlightPipelines {
 					VertexFormat.Mode.TRIANGLES
 			)
 			.withUniform("LocalMat", UniformType.MATRIX4X4)
+			.withUniform("ViewMat", UniformType.MATRIX4X4)
 			.withUniform("ModelViewMat", UniformType.MATRIX4X4)
 			.withUniform("ProjMat",  UniformType.MATRIX4X4)
 			.withUniform("Color", UniformType.VEC4)
 			.withUniform("Scale", UniformType.FLOAT)
+			.withUniform("CameraPos", UniformType.VEC3)
 			.build();
 
 	public static final BlightRenderPipeline ECHO_PASS_2 = BlightRenderPipeline.builder()
@@ -60,10 +62,12 @@ public final class BlightPipelines {
 					VertexFormat.Mode.TRIANGLES
 			)
 			.withUniform("LocalMat", UniformType.MATRIX4X4)
+			.withUniform("ViewMat", UniformType.MATRIX4X4)
 			.withUniform("ModelViewMat", UniformType.MATRIX4X4)
 			.withUniform("ProjMat",  UniformType.MATRIX4X4)
 			.withUniform("Color", UniformType.VEC4)
 			.withUniform("Scale", UniformType.FLOAT)
+			.withUniform("CameraPos", UniformType.VEC3)
 			.build();
 
 	private BlightPipelines() {}
