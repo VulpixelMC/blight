@@ -24,7 +24,6 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.joml.Vector3fc;
 import org.lwjgl.opengl.GL32C;
 
 import java.util.OptionalDouble;
@@ -96,12 +95,8 @@ public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderSt
 		pass.setIndexBuffer(indexBuffer, VertexFormat.IndexType.INT);
 
 		Camera camera = this.entityRenderDispatcher.camera;
-		Matrix4f viewMatrix = new Matrix4f()
-				.translate(camera.getPosition().toVector3f())
-				.rotation(camera.rotation());
 
 		pass.setUniform("LocalMat",  localMatrix);
-		pass.setUniform("ViewMat", viewMatrix);
 		pass.setUniform("ModelViewMat", modelViewMatrix);
 		pass.setUniform("ProjMat", RenderSystem.getProjectionMatrix());
 		pass.setUniform("CameraPos", camera.getPosition());
