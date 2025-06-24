@@ -2,6 +2,7 @@ package gay.sylv.blight.api.vm;
 
 import gay.sylv.blight.api.vm.error.BlightError;
 import gay.sylv.blight.api.vm.error.BlightResult;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;

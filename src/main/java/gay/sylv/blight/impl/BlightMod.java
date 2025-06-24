@@ -22,10 +22,11 @@ import gay.sylv.blight.api.entity.BlightEntities;
 import gay.sylv.blight.api.item.BlightCreativeModeTabs;
 import gay.sylv.blight.api.item.BlightItems;
 import gay.sylv.blight.impl.util.Constants;
-import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
+
+import net.fabricmc.api.ModInitializer;
 
 public final class BlightMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Constants.MOD_NAME);

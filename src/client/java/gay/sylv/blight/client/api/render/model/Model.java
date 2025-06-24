@@ -1,5 +1,7 @@
 package gay.sylv.blight.client.api.render.model;
 
+import java.util.Objects;
+
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
@@ -8,8 +10,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import gay.sylv.blight.client.api.render.buffers.BufferUtil;
 import gay.sylv.blight.client.impl.mixin.Accessor_MeshData;
 import it.unimi.dsi.fastutil.ints.IntConsumer;
-
-import java.util.Objects;
 
 public abstract class Model implements AutoCloseable {
 	private MeshData meshData;

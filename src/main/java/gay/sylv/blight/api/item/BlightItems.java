@@ -1,16 +1,17 @@
 package gay.sylv.blight.api.item;
 
+import java.util.function.Function;
+
 import gay.sylv.blight.api.entity.BlightEntities;
 import gay.sylv.blight.impl.util.Constants;
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
-import org.jetbrains.annotations.ApiStatus;
-
-import java.util.function.Function;
 
 public final class BlightItems {
 	public static Item ECHO_SPAWN_EGG;

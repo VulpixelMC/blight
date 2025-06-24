@@ -1,5 +1,8 @@
 package gay.sylv.blight.client.api.render.blight3d.pipeline;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.DepthTestFunction;
@@ -7,13 +10,11 @@ import com.mojang.blaze3d.platform.LogicOp;
 import com.mojang.blaze3d.platform.PolygonMode;
 import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.ShaderDefines;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Optional;
+import net.minecraft.client.renderer.ShaderDefines;
+import net.minecraft.resources.ResourceLocation;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class BlightRenderPipeline extends RenderPipeline {

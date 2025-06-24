@@ -2,6 +2,7 @@ package gay.sylv.blight.client.api.render.blight3d;
 
 import com.mojang.blaze3d.opengl.GlRenderPass;
 import com.mojang.blaze3d.systems.RenderPass;
+
 import net.minecraft.world.phys.Vec3;
 
 /**

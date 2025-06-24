@@ -1,18 +1,19 @@
 package gay.sylv.blight.api.vm;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
 import gay.sylv.blight.api.util.Nothing;
 import gay.sylv.blight.api.vm.error.BlightError;
 import gay.sylv.blight.api.vm.error.BlightResult;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.joml.Vector3i;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import net.minecraft.util.Mth;
 
 /**
  * <h1>Blight Virtual Machine</h1>

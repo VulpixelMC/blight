@@ -3,9 +3,10 @@ package gay.sylv.blight.client.impl.render;
 import gay.sylv.blight.api.entity.BlightEntities;
 import gay.sylv.blight.client.impl.render.entity.EchoRenderer;
 import gay.sylv.blight.impl.BlightMod;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
+
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 public final class Rendering {
 	public static final Logger LOGGER = BlightMod.createLogger("Client", "Rendering");

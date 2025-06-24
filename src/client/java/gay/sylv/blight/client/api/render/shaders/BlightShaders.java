@@ -1,6 +1,7 @@
 package gay.sylv.blight.client.api.render.shaders;
 
 import gay.sylv.blight.impl.util.Constants;
+
 import net.minecraft.resources.ResourceLocation;
 
 public final class BlightShaders {

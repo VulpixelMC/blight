@@ -6,12 +6,8 @@ import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.platform.DestFactor;
 import com.mojang.blaze3d.platform.SourceFactor;
 import com.mojang.blaze3d.shaders.UniformType;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormatElement;
 import gay.sylv.blight.client.api.render.blight3d.pipeline.BlightRenderPipeline;
-import gay.sylv.blight.client.api.render.blight3d.pipeline.StencilFunction;
-import gay.sylv.blight.client.api.render.blight3d.pipeline.StencilOperation;
 import gay.sylv.blight.client.api.render.shaders.BlightShaders;
 
 /**

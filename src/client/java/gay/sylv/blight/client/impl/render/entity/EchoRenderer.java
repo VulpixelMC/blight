@@ -1,5 +1,8 @@
 package gay.sylv.blight.client.impl.render.entity;
 
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+
 import com.mojang.blaze3d.buffers.BufferType;
 import com.mojang.blaze3d.buffers.BufferUsage;
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -11,10 +14,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import gay.sylv.blight.api.entity.Echo;
-import gay.sylv.blight.client.api.render.model.Icosphere;
 import gay.sylv.blight.client.api.render.blight3d.BlightRenderPass;
+import gay.sylv.blight.client.api.render.model.Icosphere;
 import gay.sylv.blight.client.api.render.pipeline.BlightPipelines;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL32C;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,12 +28,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL32C;
 
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
 public class EchoRenderer extends EntityRenderer<Echo, EchoRenderer.EchoRenderState> {
 	private static final Icosphere ICOSPHERE = new Icosphere(2);

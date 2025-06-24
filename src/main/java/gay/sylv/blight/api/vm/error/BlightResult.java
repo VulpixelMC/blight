@@ -1,10 +1,10 @@
 package gay.sylv.blight.api.vm.error;
 
+import java.util.function.Predicate;
+
 import gay.sylv.blight.api.vm.BlightVM;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Predicate;
 
 /**
  * The result of an operation in a {@link BlightVM}.

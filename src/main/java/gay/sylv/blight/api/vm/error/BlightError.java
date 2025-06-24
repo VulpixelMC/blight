@@ -2,6 +2,7 @@ package gay.sylv.blight.api.vm.error;
 
 import gay.sylv.blight.api.vm.BlightVM;
 import gay.sylv.blight.impl.util.Constants;
+
 import net.minecraft.network.chat.Component;
 
 /**
