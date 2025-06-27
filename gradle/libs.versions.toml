@@ -9,6 +9,7 @@ fabric_loader = "0.16.14"
 
 # Libraries
 fabric_api = "0.124.2+1.21.5"
+spruceui = "7.0.2+1.21.5"
 
 # Mod Integrations
 wthit = "fabric-15.0.1"
@@ -25,6 +26,7 @@ fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_l
 
 # Libraries
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+spruceui = { module = "dev.lambdaurora:spruceui", version.ref = "spruceui"}
 
 # Mod Integrations
 wthit = { module = "mcp.mobius.waila:wthit", version.ref = "wthit" }

@@ -15,5 +15,5 @@ ij_java_continuation_indent_size = 8 # Should be twice the tab width (8 for 4 co
 ij_json_continuation_indent_size = 2 # Should be the tab size
 ij_toml_continuation_indent_size = 4 # Should be the tab size
 
-[*.json]
+[{*.json,*.mcmeta}]
 tab_width = 2

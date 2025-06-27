@@ -57,6 +57,7 @@ repositories {
 		url = uri("https://maven.gegy.dev/releases")
 		content {
 			includeGroup("dev.gegy")
+			includeGroup("dev.lambdaurora")
 		}
 	}
 
@@ -68,8 +69,6 @@ repositories {
 		}
 	}
 }
-
-val modImplementationInclude by configurations.register("modImplementationInclude")
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
 // See https://docs.gradle.org/current/userguide/platforms.html for information on how version catalogs work.
@@ -85,6 +84,8 @@ dependencies {
 
 	// Libraries
 	modImplementation(libs.fabric.api)
+	include(libs.spruceui)
+	modImplementation(libs.spruceui)
 
 	// Mod Integrations
 	modCompileOnly(libs.wthit)

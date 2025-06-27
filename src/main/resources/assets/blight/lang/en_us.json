@@ -5,6 +5,7 @@
 	"blight.vm.error.nature_unimplemented": "Nature %1$c is unimplemented",
 	"blight.vm.object.number": "Number",
 	"blight.vm.object.entity": "Entity",
+	"blight.gui.hex_tablet.title": "Hex Tablet",
 	"entity.blight.echo": "Echo",
 	"item.blight.echo_spawn_egg": "Echo Spawn Egg",
 	"itemGroup.blight.echo": "Blight - Echoes"
